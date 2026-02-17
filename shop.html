@@ -46,20 +46,20 @@
 </main>
 
 <div id="cartSidebar" style="position: fixed; right: -400px; top: 0; width: 350px; height: 100%; background: #1a1a1a; border-left: 2px solid #ff4d4d; z-index: 2000; transition: 0.4s; padding: 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.8); display: flex; flex-direction: column;">
-    <button onclick="toggleCart()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #ff4d4d; font-size: 2.5rem; cursor: pointer; line-height: 1;">&times;</button>
+    <button onclick="toggleCart()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ff4d4d; font-size: 2.5rem; cursor: pointer;">&times;</button>
     
-    <h2 style="color: #ff4d4d; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 0;">Your Garage</h2>
+    <h2 style="color: #ff4d4d; border-bottom: 2px solid #333; padding-bottom: 10px;">Your Garage</h2>
     
     <div id="cartItemsList" style="flex-grow: 1; overflow-y: auto; margin-top: 15px;">
         <p id="emptyMsg" style="color: #555; text-align: center; margin-top: 40px;">Your garage is empty.</p>
     </div>
 
-    <div style="border-top: 1px solid #333; padding-top: 20px;">
+    <div style="border-top: 1px solid #333; padding-top: 20px; background: #1a1a1a;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <span style="color: #888; font-weight: bold;">TOTAL:</span>
             <span id="cartTotal" style="color: #ff4d4d; font-size: 1.5rem; font-weight: bold;">₱0</span>
         </div>
-        <button id="finalCheckoutBtn" style="width: 100%; padding: 15px; background: #ff4d4d; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem;">PROCEED TO CHECKOUT</button>
+        <button id="finalCheckoutBtn" style="width: 100%; padding: 18px; background: #ff4d4d; color: white; border: none; border-radius: 8px; font-weight: 900; font-size: 1.2rem; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 20px rgba(255,77,77,0.4);">Proceed to Checkout</button>
     </div>
 </div>
 
@@ -75,12 +75,12 @@
     const backBtn = document.getElementById('backToShop');
 
     function toggleCart() {
-        const currentRight = cartSidebar.style.right;
-        cartSidebar.style.right = (currentRight === "0px") ? "-400px" : "0px";
+        const isClosed = cartSidebar.style.right === "-400px" || cartSidebar.style.right === "";
+        cartSidebar.style.right = isClosed ? "0px" : "-400px";
     }
 
-    // 1. THIS ADDS ITEMS TO THE LIST
-    function initCartButtons() {
+    // ATTACH ADD TO CART EVENTS
+    function initButtons() {
         document.querySelectorAll('.add-to-cart').forEach(btn => {
             btn.onclick = function() {
                 const card = this.closest('.card');
@@ -89,7 +89,7 @@
 
                 cart.push({ name, price });
                 
-                // CHANGE BUTTON TEXT
+                // CHANGE BUTTON STATE
                 this.innerText = "✓ Added into Cart";
                 this.style.background = "#28a745";
                 this.style.borderColor = "#28a745";
@@ -102,9 +102,8 @@
     function updateCartUI() {
         cartItemsList.innerHTML = '';
         let total = 0;
-
         if (cart.length === 0) {
-            cartItemsList.innerHTML = '<p id="emptyMsg" style="color: #555; text-align: center; margin-top: 40px;">Your garage is empty.</p>';
+            cartItemsList.innerHTML = '<p style="color: #555; text-align: center; margin-top: 40px;">Your garage is empty.</p>';
         } else {
             cart.forEach((item, index) => {
                 total += item.price;
@@ -123,7 +122,6 @@
     window.removeItem = function(index) {
         const removedName = cart[index].name;
         cart.splice(index, 1);
-        
         cards.forEach(card => {
             if(card.querySelector('h3').innerText === removedName) {
                 const btn = card.querySelector('.add-to-cart');
@@ -134,7 +132,7 @@
         updateCartUI();
     };
 
-    // 2. SEARCH LOGIC
+    // SEARCH FILTER
     function runSearch(word) {
         let count = 0;
         backBtn.style.display = (word.length > 0) ? "block" : "none"; 
@@ -153,7 +151,7 @@
     searchInput.addEventListener('input', (e) => runSearch(e.target.value));
     backBtn.onclick = () => { searchInput.value = ""; runSearch(""); };
 
-    // 3. CHECKOUT
+    // CHECKOUT LOGIC
     document.getElementById('finalCheckoutBtn').onclick = () => {
         if (cart.length === 0) return alert("Your garage is empty!");
         alert(`your items already check out\nTotal Payment: ${cartTotalDisplay.textContent}`);
@@ -166,9 +164,9 @@
         });
     };
 
-    // 4. FIX FOR HOME PAGE SEARCH
+    // FIX FOR HOME PAGE LOAD
     window.onload = () => {
-        initCartButtons(); // Makes sure buttons work even if card is hidden/shown
+        initButtons();
         const urlParams = new URLSearchParams(window.location.search);
         const item = urlParams.get('item');
         if (item) {
@@ -177,6 +175,5 @@
         }
     };
 </script>
-
 </body>
 </html>
