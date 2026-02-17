@@ -27,7 +27,7 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-        <h1 class="reveal-text">Master the Asphalt</h1>
+        <h1 class="reveal-text">BETTER PARTS IS ALWAYS HERE</h1>
         <p>Premium motorcycle parts built for speed, power, and control.</p>
         <a href="shop.html" class="glow-button">Explore the Collection</a>
     </div>
@@ -92,27 +92,16 @@
 </footer>
 
 <script>
-    // 1. We grab the search input and all the featured cards
     const searchInput = document.getElementById('shopSearch');
-    const cards = document.querySelectorAll('.bike-card');
 
-    // 2. We listen for when you type
-    searchInput.addEventListener('input', (e) => {
-        const value = e.target.value.toLowerCase();
-
-        cards.forEach(card => {
-            // Get the text from the <h3> inside each card
-            const title = card.querySelector('h3').textContent.toLowerCase();
-            
-            // If what you typed is in the title, show it. If not, hide it.
-            if (title.includes(value)) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
-        });
+    // When the user presses "Enter" in the search bar
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = e.target.value.toLowerCase();
+            // Redirect to shop.html and pass the search term in the URL
+            window.location.href = `shop.html?search=${query}`;
+        }
     });
 </script>
-
 </body>
 </html>
