@@ -10,11 +10,9 @@
 
 <nav>
     <div class="logo">IRONRIDE</div>
-    
     <div class="search-container">
         <input type="text" id="shopSearch" placeholder="Search parts...">
     </div>
-
     <div class="menu">
         <a href="index.html">Home</a>
         <a href="shop.html" class="active">Shop</a>
@@ -25,11 +23,11 @@
 
 <main class="container">
     <h2 class="section-title">High-Performance Inventory</h2>
-
+    
     <h3 id="noResults" style="display: none; text-align: center; color: #ff4d4d; margin-top: 50px;">
         🚫 No parts found in the garage. Try another search!
     </h3>
-    
+
     <div class="product-grid">
         <div class="card">
             <div class="badge">Trending</div>
@@ -70,151 +68,133 @@
         </div>
 
         <div class="card">
-            <div class="badge">Trending</div>
-            <img src="dyno.jpeg" alt="swing arm">
-            <h3>Dynopro +3</h3>
-            <p class="price">₱10,000</p>
-            <button class="add-to-cart">Add to Cart</button>
-        </div>
-
-        <div class="card">
-            <div class="badge">Trending</div>
             <img src="caliper.jpeg" alt="caliper">
             <h3>Brembo 4pot</h3>
             <p class="price">₱70,000</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
-
+        
         <div class="card">
-            <div class="badge">Trending</div>
-            <img src="mags2.jpeg" alt="mags">
-            <h3>Mags</h3>
-            <p class="price">₱15,000</p>
-            <button class="add-to-cart">Add to Cart</button>
-        </div>
-
-        <div class="card">
-            <div class="badge">Trending</div>
             <img src="tire.jpeg" alt="tire">
             <h3>Tires</h3>
-            <p class="price">₱70,000</p>
-            <button class="add-to-cart">Add to Cart</button>
-        </div>
-
-        <div class="card">
-            <div class="badge">Trending</div>
-            <img src="meter1.jpeg" alt="speedo">
-            <h3>Speedometer</h3>
             <p class="price">₱70,000</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
     </div>
 </main>
 
-<div id="cartSidebar" style="position: fixed; right: -400px; top: 0; width: 350px; height: 100%; background: #1a1a1a; border-left: 2px solid #ff4d4d; z-index: 2000; transition: 0.4s; padding: 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
-    <h2 style="color: #ff4d4d; border-bottom: 2px solid #333; padding-bottom: 10px;">Your Garage</h2>
+<div id="cartSidebar" style="position: fixed; right: -400px; top: 0; width: 350px; height: 100%; background: #1a1a1a; border-left: 2px solid #ff4d4d; z-index: 2000; transition: 0.4s; padding: 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.8); display: flex; flex-direction: column;">
+    <h2 style="color: #ff4d4d; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 0;">Your Garage</h2>
     
-    <div id="cartItemsList" style="margin-top: 20px; height: 65vh; overflow-y: auto;">
-        <p id="emptyMsg" style="color: #555; text-align: center; margin-top: 50px;">Your garage is empty.</p>
+    <div id="cartItemsList" style="flex-grow: 1; overflow-y: auto; margin-top: 15px;">
+        <p id="emptyMsg" style="color: #555; text-align: center; margin-top: 40px;">Your garage is empty.</p>
     </div>
 
-    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; background: #111; box-sizing: border-box;">
-        <h3 style="display: flex; justify-content: space-between; color: white;">Total: <span id="cartTotal">₱0</span></h3>
-        <button id="checkoutBtn" class="glow-button" style="width: 100%; margin-top: 10px; cursor: pointer; border: none;">Proceed to Checkout</button>
-        <button onclick="toggleCart()" style="width: 100%; margin-top: 10px; background: transparent; color: #888; border: none; cursor: pointer;">Close Garage</button>
+    <div style="border-top: 1px solid #333; padding-top: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="color: #888; font-weight: bold;">TOTAL:</span>
+            <span id="cartTotal" style="color: #ff4d4d; font-size: 1.5rem; font-weight: bold;">₱0</span>
+        </div>
+        <button id="finalCheckoutBtn" class="glow-button" style="width: 100%; cursor: pointer; border: none;">Proceed to Checkout</button>
+        <button onclick="toggleCart()" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; cursor: pointer;">Close</button>
     </div>
 </div>
 
-<button onclick="toggleCart()" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #ff4d4d; border: none; color: white; font-size: 24px; cursor: pointer; z-index: 1500; box-shadow: 0 0 20px rgba(255,77,77,0.4);">🛒</button>
+<button onclick="toggleCart()" style="position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; border-radius: 50%; background: #ff4d4d; border: none; color: white; font-size: 26px; cursor: pointer; z-index: 1500; box-shadow: 0 4px 15px rgba(255,77,77,0.4);">🛒</button>
 
 <footer>
     <p>© 2026 IronRide Motorcycle Parts</p>
 </footer>
 
 <script>
-    const searchInput = document.getElementById('shopSearch');
-    const cards = document.querySelectorAll('.card');
+    let cart = [];
     const cartSidebar = document.getElementById('cartSidebar');
     const cartItemsList = document.getElementById('cartItemsList');
     const cartTotalDisplay = document.getElementById('cartTotal');
-    
-    let garage = [];
-    let total = 0;
+    const searchInput = document.getElementById('shopSearch');
+    const cards = document.querySelectorAll('.card');
 
-    // --- SEARCH LOGIC ---
-    function runSearch(word) {
-        let foundCount = 0;
-        cards.forEach(card => {
-            const productName = card.querySelector('h3').textContent.toLowerCase();
-            if (productName.includes(word.toLowerCase())) {
-                card.style.display = "block";
-                foundCount++;
-            } else {
-                card.style.display = "none";
-            }
-        });
-        document.getElementById('noResults').style.display = (foundCount === 0) ? "block" : "none";
-    }
-
-    searchInput.addEventListener('input', (e) => runSearch(e.target.value));
-
-    // --- CART / GARAGE LISTING LOGIC ---
+    // 1. Sidebar Toggle
     function toggleCart() {
         const currentRight = cartSidebar.style.right;
         cartSidebar.style.right = (currentRight === "0px") ? "-400px" : "0px";
     }
 
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', (e) => {
+    // 2. Add to Cart (LISTING ONLY)
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
             const card = e.target.closest('.card');
             const name = card.querySelector('h3').textContent;
             const price = parseInt(card.querySelector('.price').textContent.replace(/[₱,]/g, ''));
 
-            // Step 1: Add to our list
-            garage.push({ name, price });
-            
-            // Step 2: Refresh the visual list
-            updateGarageUI();
-            
-            // Step 3: Open the garage sidebar so they see it
-            if(cartSidebar.style.right !== "0px") toggleCart();
+            cart.push({ name, price });
+            updateCartUI();
         });
     });
 
-    function updateGarageUI() {
+    // 3. Update Cart List & Total
+    function updateCartUI() {
         cartItemsList.innerHTML = '';
-        total = 0;
+        let total = 0;
 
-        if (garage.length === 0) {
-            cartItemsList.innerHTML = '<p style="color: #555; text-align: center; margin-top: 50px;">Your garage is empty.</p>';
+        if (cart.length === 0) {
+            cartItemsList.innerHTML = '<p style="color: #555; text-align: center; margin-top: 40px;">Your garage is empty.</p>';
         } else {
-            garage.forEach((item) => {
+            cart.forEach((item, index) => {
                 total += item.price;
                 const div = document.createElement('div');
-                div.style.cssText = "display: flex; justify-content: space-between; background: #222; padding: 12px; margin-bottom: 10px; border-radius: 5px; color: white; border-left: 3px solid #ff4d4d;";
-                div.innerHTML = `<span>${item.name}</span><span>₱${item.price.toLocaleString()}</span>`;
+                div.style.cssText = "background: #222; padding: 12px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #ff4d4d; display: flex; justify-content: space-between; align-items: center;";
+                div.innerHTML = `
+                    <div style="flex: 1;">
+                        <span style="display: block; font-weight: bold; font-size: 0.9rem;">${item.name}</span>
+                        <span style="color: #ff4d4d;">₱${item.price.toLocaleString()}</span>
+                    </div>
+                    <button onclick="removeItem(${index})" style="background: none; border: none; color: #555; cursor: pointer; font-size: 1.2rem;">&times;</button>
+                `;
                 cartItemsList.appendChild(div);
             });
         }
         cartTotalDisplay.textContent = `₱${total.toLocaleString()}`;
     }
 
-    // --- FINAL CHECKOUT LOGIC ---
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
-        if (garage.length === 0) {
+    // 4. Remove Item
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    // 5. Final Checkout Message
+    document.getElementById('finalCheckoutBtn').addEventListener('click', () => {
+        if (cart.length === 0) {
             alert("Your garage is empty!");
             return;
         }
-
-        // Final summary
-        alert(`✅ Checkout Successful!\n\nYour items already checked out.\nTotal Payment: ₱${total.toLocaleString()}`);
+        const finalTotal = cartTotalDisplay.textContent;
+        alert(`your items already check out\nTotal Payment: ${finalTotal}`);
         
-        garage = [];
-        updateGarageUI();
+        cart = [];
+        updateCartUI();
         toggleCart();
     });
 
-    // Handle Search from Home page
+    // 6. Search Functionality
+    function runSearch(word) {
+        let count = 0;
+        cards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            if (title.includes(word.toLowerCase())) {
+                card.style.display = "block";
+                count++;
+            } else {
+                card.style.display = "none";
+            }
+        });
+        document.getElementById('noResults').style.display = (count === 0) ? "block" : "none";
+    }
+
+    searchInput.addEventListener('input', (e) => runSearch(e.target.value));
+
+    // Initial load check for search from Home
     window.addEventListener('load', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const item = urlParams.get('item');
