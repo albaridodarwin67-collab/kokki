@@ -22,7 +22,7 @@
 </nav>
 
 <main class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 40px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 40px; margin-top: 20px;">
         <h2 class="section-title">High-Performance Inventory</h2>
         <button id="backToShop" style="display: none; padding: 10px 20px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">← Back to Shop</button>
     </div>
@@ -39,21 +39,18 @@
             <p class="price">₱18,500</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
-
         <div class="card">
             <img src="carb.png" alt="Helmet">
             <h3>Carbon Aero Helmet</h3>
             <p class="price">₱12,200</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
-
         <div class="card">
             <img src="nit.jpg" alt="Shocks">
             <h3>Nitrogen Rear Shocks</h3>
             <p class="price">₱8,400</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
-
         <div class="card">
             <div class="badge">Sale</div>
             <img src="led.jpg" alt="Light">
@@ -61,17 +58,40 @@
             <p class="price">₱2,100</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
-
+        <div class="card">
+            <div class="badge">Trending</div>
+            <img src="mags.png" alt="Mags">
+            <h3>Mags raizen</h3>
+            <p class="price">₱10,500</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="dyno.jpeg" alt="swing arm">
+            <h3>Dynopro +3</h3>
+            <p class="price">₱10,000</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
         <div class="card">
             <img src="caliper.jpeg" alt="caliper">
             <h3>Brembo 4pot</h3>
             <p class="price">₱70,000</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
-        
+        <div class="card">
+            <img src="mags2.jpeg" alt="mags">
+            <h3>Mags</h3>
+            <p class="price">₱15,000</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
         <div class="card">
             <img src="tire.jpeg" alt="tire">
             <h3>Tires</h3>
+            <p class="price">₱70,000</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="card">
+            <img src="meter1.jpeg" alt="speedo">
+            <h3>Speedometer</h3>
             <p class="price">₱70,000</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
@@ -79,6 +99,9 @@
 </main>
 
 <div id="cartSidebar" style="position: fixed; right: -400px; top: 0; width: 350px; height: 100%; background: #1a1a1a; border-left: 2px solid #ff4d4d; z-index: 2000; transition: 0.4s; padding: 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.8); display: flex; flex-direction: column;">
+    
+    <button onclick="toggleCart()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #ff4d4d; font-size: 2rem; cursor: pointer; font-weight: bold;">&times;</button>
+    
     <h2 style="color: #ff4d4d; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 0;">Your Garage</h2>
     
     <div id="cartItemsList" style="flex-grow: 1; overflow-y: auto; margin-top: 15px;">
@@ -90,8 +113,7 @@
             <span style="color: #888; font-weight: bold;">TOTAL:</span>
             <span id="cartTotal" style="color: #ff4d4d; font-size: 1.5rem; font-weight: bold;">₱0</span>
         </div>
-        <button id="finalCheckoutBtn" class="glow-button" style="width: 100%; cursor: pointer; border: none;">Finalize Checkout</button>
-        <button onclick="toggleCart()" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; cursor: pointer;">Close</button>
+        <button id="finalCheckoutBtn" class="glow-button" style="width: 100%; cursor: pointer;">Proceed to Checkout</button>
     </div>
 </div>
 
@@ -111,7 +133,7 @@
         cartSidebar.style.right = (currentRight === "0px") ? "-400px" : "0px";
     }
 
-    // ADD TO CART WITH STATUS CHANGE
+    // ADD TO CART: Updates list, changes text, NO CHECKOUT POPUP
     document.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const card = e.target.closest('.card');
@@ -120,9 +142,9 @@
 
             cart.push({ name, price });
             
-            // UI CHANGE: Item is in cart
-            e.target.innerText = "✓ In Cart";
-            e.target.style.background = "#28a745"; // Green color
+            // UI Update: Tell user it's added
+            e.target.innerText = "✓ Added into Cart";
+            e.target.style.background = "#28a745";
             e.target.style.borderColor = "#28a745";
 
             updateCartUI();
@@ -140,11 +162,8 @@
                 const div = document.createElement('div');
                 div.style.cssText = "background: #222; padding: 12px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #ff4d4d; display: flex; justify-content: space-between; align-items: center;";
                 div.innerHTML = `
-                    <div style="flex: 1;">
-                        <span style="display: block; font-weight: bold; font-size: 0.9rem; color: white;">${item.name}</span>
-                        <span style="color: #ff4d4d;">₱${item.price.toLocaleString()}</span>
-                    </div>
-                    <button onclick="removeItem(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.2rem;">&times;</button>
+                    <div style="flex: 1;"><span style="display: block; font-weight: bold; color: white;">${item.name}</span><span style="color: #ff4d4d;">₱${item.price.toLocaleString()}</span></div>
+                    <button onclick="removeItem(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.5rem;">&times;</button>
                 `;
                 cartItemsList.appendChild(div);
             });
@@ -156,37 +175,34 @@
         const removedItemName = cart[index].name;
         cart.splice(index, 1);
         
-        // Reset the button on the card if removed from cart
+        // Reset the button on the card back to "Add to Cart"
         document.querySelectorAll('.card').forEach(card => {
             if(card.querySelector('h3').innerText === removedItemName) {
                 const btn = card.querySelector('.add-to-cart');
                 btn.innerText = "Add to Cart";
-                btn.style.background = ""; // Resets to CSS default
-                btn.style.borderColor = "";
+                btn.style.background = "";
             }
         });
-
         updateCartUI();
     }
 
+    // CHECKOUT: Only happens when they click the button IN THE CART
     document.getElementById('finalCheckoutBtn').addEventListener('click', () => {
         if (cart.length === 0) return alert("Your garage is empty!");
         alert(`your items already check out\nTotal Payment: ${cartTotalDisplay.textContent}`);
         cart = [];
         updateCartUI();
         toggleCart();
-        // Reset all buttons
         document.querySelectorAll('.add-to-cart').forEach(btn => {
             btn.innerText = "Add to Cart";
             btn.style.background = "";
         });
     });
 
-    // SEARCH & BACK BUTTON LOGIC
+    // SEARCH LOGIC
     function runSearch(word) {
         let count = 0;
-        backBtn.style.display = (word.length > 0) ? "block" : "none"; // Show back button when searching
-        
+        backBtn.style.display = (word.length > 0) ? "block" : "none"; 
         cards.forEach(card => {
             const title = card.querySelector('h3').textContent.toLowerCase();
             if (title.includes(word.toLowerCase())) {
@@ -200,18 +216,7 @@
     }
 
     searchInput.addEventListener('input', (e) => runSearch(e.target.value));
-
-    // CLICK BACK BUTTON: Clears search and shows all
-    backBtn.addEventListener('click', () => {
-        searchInput.value = "";
-        runSearch("");
-    });
-
-    window.addEventListener('load', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const item = urlParams.get('item');
-        if (item) { searchInput.value = item; runSearch(item); }
-    });
+    backBtn.addEventListener('click', () => { searchInput.value = ""; runSearch(""); });
 </script>
 
 </body>
