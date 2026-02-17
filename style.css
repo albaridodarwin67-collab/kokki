@@ -1,0 +1,240 @@
+/* GLOBAL SETTINGS */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* NAVIGATION & SEARCH */
+nav {
+    background: black;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #ff4d4d;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 0.5; /* Gives the search bar its own space in the middle */
+    display: flex;
+    justify-content: center;
+}
+
+#shopSearch {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    outline: none;
+    transition: 0.4s ease;
+    width: 200px;
+}
+
+#shopSearch:focus {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+    width: 300px; /* Expands when clicked */
+}
+
+.menu a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.menu a:hover, .menu a.active {
+    color: #ff4d4d;
+}
+
+/* HERO SECTION */
+.hero-interactive {
+    position: relative;
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url("https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1920") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.glow-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 35px;
+    background: #ff3c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 0 15px rgba(255, 60, 0, 0.4);
+    border: none;
+    cursor: pointer;
+}
+
+.glow-button:hover {
+    background: #ff1f00;
+    box-shadow: 0 0 25px rgba(255, 60, 0, 0.7);
+    transform: translateY(-3px);
+}
+
+/* GRIDS (Shop & Features) */
+.product-grid, .features-grid, .bike-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* CARDS & HOVER EFFECTS */
+.card, .feature-box, .bike-card {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #222;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover, .bike-card:hover {
+    border-color: #ff4d4d;
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+.card img, .bike-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* BADGES & ANIMATION */
+.badge {
+    background: #ff4d4d;
+    color: white;
+    font-size: 0.7rem;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* PRICE & ADD TO CART */
+.price {
+    color: #ff4d4d;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.add-to-cart:hover {
+    background: #ff4d4d;
+    color: black;
+    font-weight: bold;
+}
+
+/* CONTACT FORM FLOATING LABELS */
+.contact-section {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #1a1a1a;
+    border-radius: 15px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+/* Floating effect when typing */
+.input-group input:focus ~ label, 
+.input-group input:valid ~ label,
+.input-group textarea:focus ~ label {
+    top: -10px;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #ff4d4d;
+    background: #1a1a1a;
+    padding: 0 5px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px;
+    background: black;
+    border-top: 1px solid #222;
+    margin-top: 50px;
+}

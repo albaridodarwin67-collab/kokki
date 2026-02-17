@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronRide | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">IRONRIDE</div>
+
+    <div class="search-container">
+        <input type="text" id="shopSearch" placeholder="Search featured parts...">
+    </div>
+
+    <div class="menu">
+        <a href="index.html" class="active">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+</nav>
+
+<header class="hero-interactive">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1 class="reveal-text">Master the Asphalt</h1>
+        <p>Premium motorcycle parts built for speed, power, and control.</p>
+        <a href="shop.html" class="glow-button">Explore the Collection</a>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="features-grid">
+        <div class="feature-box">
+            <div class="icon">⚡</div>
+            <h3>High Performance</h3>
+            <p>Tested on the track, built for the street.</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="icon">🛡️</div>
+            <h3>Elite Safety</h3>
+            <p>Certified gear that has your back.</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="icon">🔧</div>
+            <h3>Expert Tuning</h3>
+            <p>Precision parts for every make and model.</p>
+        </div>
+    </section>
+
+    <section class="bike-showcase">
+        <h2>Featured Motorcycle Parts</h2>
+
+        <div class="bike-grid">
+            <div class="bike-card">
+                <img src="carb.png">
+                <h3>Carbon Fiber Helmet</h3>
+            </div>
+
+            <div class="bike-card">
+                <img src="bd.jpeg">
+                <h3>Racing Exhaust</h3>
+            </div>
+
+            <div class="bike-card">
+                <img src="kit.webp">
+                <h3>Performance Brake Kit</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="welcome-section">
+        <h2>Welcome to the Garage</h2>
+        <p>
+            We provide high-performance parts for riders who don't compromise.
+            From titanium exhausts to carbon fiber helmets, IronRide is your
+            partner on the road.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 IronRide Motorcycle Parts</p>
+</footer>
+
+<script>
+    // 1. We grab the search input and all the featured cards
+    const searchInput = document.getElementById('shopSearch');
+    const cards = document.querySelectorAll('.bike-card');
+
+    // 2. We listen for when you type
+    searchInput.addEventListener('input', (e) => {
+        const value = e.target.value.toLowerCase();
+
+        cards.forEach(card => {
+            // Get the text from the <h3> inside each card
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            
+            // If what you typed is in the title, show it. If not, hide it.
+            if (title.includes(value)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
